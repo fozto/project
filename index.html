@@ -19,7 +19,7 @@ h1{font-size:1.5rem;letter-spacing:.18em;background:linear-gradient(90deg,var(--
 .glass:hover{transform:translateY(-3px);border-color:rgba(43,184,220,.4);box-shadow:0 10px 30px rgba(43,184,220,.12)}
 button{font:inherit;cursor:pointer;border:1px solid var(--bd);background:var(--gl);color:var(--tx);padding:9px 14px;border-radius:10px;transition:all .2s}
 button:hover{border-color:var(--bl);box-shadow:0 0 14px rgba(43,184,220,.3)}
-button:focus-visible,input:focus-visible{outline:2px solid var(--bl);outline-offset:2px}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--bl);outline-offset:2px}
 .pri{background:linear-gradient(90deg,var(--bl),var(--pu));border:0;color:#fff;font-weight:600}
 .dng:hover{border-color:var(--rd);box-shadow:0 0 14px rgba(244,63,94,.35)}
 .hero{padding:22px 18px 18px;margin-bottom:24px;text-align:center}
@@ -83,17 +83,74 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--bl);outline-off
 .box{background:#03303f;border:1px solid var(--bd);border-radius:18px;padding:22px;width:100%;max-width:380px}
 .box h2{margin-bottom:14px;font-size:1.1rem}
 label{display:block;font-size:.8rem;color:var(--mu);margin:10px 0 4px}
-input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--bd);background:rgba(255,255,255,.05);color:var(--tx);font:inherit}
+input,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--bd);background:rgba(255,255,255,.05);color:var(--tx);font:inherit}
 .row{display:flex;gap:8px;margin-top:18px;justify-content:flex-end}
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:#024A65;border:1px solid var(--bd);padding:10px 16px;border-radius:10px;transition:transform .3s;z-index:20;max-width:90%}
 #toast.show{transform:translateX(-50%)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== Percantik tampilan ===== */
+@property --ang{syntax:"<angle>";initial-value:0deg;inherits:false}
+.wrap{position:relative;z-index:1}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55;animation:twk 7s ease-in-out infinite;background-size:260px 260px;
+background-image:radial-gradient(1.2px 1.2px at 20px 40px,#fff,transparent),radial-gradient(1px 1px at 90px 150px,#bfefff,transparent),radial-gradient(1.5px 1.5px at 170px 70px,#fff,transparent),radial-gradient(1px 1px at 220px 200px,#8fe9f8,transparent),radial-gradient(1px 1px at 60px 230px,#fff,transparent),radial-gradient(1.3px 1.3px at 130px 20px,#bfefff,transparent)}
+body::after{content:"";position:fixed;inset:-20%;pointer-events:none;z-index:0;will-change:transform;animation:drift 20s ease-in-out infinite alternate;
+background:radial-gradient(40% 30% at 18% 28%,rgba(4,122,154,.26),transparent 70%),radial-gradient(36% 30% at 82% 72%,rgba(1,106,142,.26),transparent 70%),radial-gradient(30% 25% at 70% 15%,rgba(143,233,248,.10),transparent 70%)}
+@keyframes twk{50%{opacity:.2}}
+@keyframes drift{to{transform:translate(4%,3%) scale(1.08)}}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:42px;height:42px;flex:none;filter:drop-shadow(0 0 10px rgba(143,233,248,.7));animation:lgp 3.5s ease-in-out infinite}
+@keyframes lgp{50%{filter:drop-shadow(0 0 18px rgba(143,233,248,.95))}}
+h1{filter:drop-shadow(0 0 14px rgba(43,184,220,.45))}
+.badge::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--mu);margin-right:7px;vertical-align:1px}
+.badge.on::before{background:var(--gr);box-shadow:0 0 8px var(--gr);animation:dot 1.8s ease-in-out infinite}
+@keyframes dot{50%{opacity:.35}}
+.hero{position:relative;padding:26px 18px 22px;background:linear-gradient(160deg,rgba(4,122,154,.16),rgba(0,45,63,.25))}
+.hero::before{content:"";position:absolute;inset:-1px;border-radius:19px;padding:1px;pointer-events:none;background:conic-gradient(from var(--ang),transparent 0 62%,rgba(143,233,248,.9) 80%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:ang 8s linear infinite}
+@keyframes ang{to{--ang:360deg}}
+.hero:hover{transform:none}
+.pname{font-size:1.45rem;background:linear-gradient(90deg,#e8f6fb,#8fe9f8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pl{max-width:360px;perspective:700px}
+.pl svg{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out}
+.pl:hover svg{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(1.04)}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:520px;margin:14px auto 0}
+.chip{border:1px solid var(--bd);background:rgba(0,45,63,.45);border-radius:14px;padding:10px 6px}
+.chip span{display:block;font-size:.72rem;color:var(--mu);letter-spacing:.04em}
+.chip b{display:block;font-size:1.6rem;margin-top:2px}
+.c1 b{color:var(--gr)}.c2 b{color:#f5b84b}.c3 b{color:var(--tx)}
+.hint{margin-top:12px;font-size:.8rem;color:var(--mu);animation:hnt 2.8s ease-in-out infinite}
+@keyframes hnt{50%{opacity:.45}}
+.modal{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.box{box-shadow:0 24px 70px rgba(0,0,0,.55),0 0 0 1px rgba(143,233,248,.12);animation:pop .3s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.97)}}
+.pri{box-shadow:0 6px 22px rgba(43,184,220,.35)}
+#list.anim .task{animation:rise .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*80ms)}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+.ok{font-style:normal;color:var(--gr);letter-spacing:.06em;margin-left:6px}
+.task{background:linear-gradient(160deg,rgba(4,122,154,.14),rgba(0,45,63,.3))}
+.acts{display:grid;grid-template-columns:1.35fr 1.35fr 1fr 1fr;gap:5px}
+.acts button{padding:8px 4px;font-size:.74rem;white-space:nowrap}
+@media(max-width:520px){.chip b{font-size:1.3rem}.pname{font-size:1.2rem}h1{font-size:1.2rem}.logo{width:34px;height:34px}}
+/* ===== Versi 5 ===== */
+textarea{resize:vertical;min-height:58px}
+input[type=date]{color-scheme:dark}
+.box{max-height:92vh;overflow:auto}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
+.due{display:inline-block;font-size:.76rem;color:var(--mu);border:1px solid var(--bd);border-radius:99px;padding:3px 10px;margin:2px 0 4px}
+.due.soon{color:#f5b84b;border-color:rgba(245,184,75,.45)}
+.due.late{color:#ff8da1;border-color:rgba(244,63,94,.5)}
+.due.ok{color:var(--gr);border-color:rgba(143,233,248,.4)}
+.note{margin-top:10px;font-size:.82rem;color:var(--mu);line-height:1.45;overflow-wrap:anywhere;white-space:pre-line}
+.note a{color:var(--gr)}
+.next{margin-top:12px;font-size:.85rem;color:var(--mu)}
+.next b{color:var(--tx)}
+.next.late b,.next.late span{color:#ff8da1}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div><h1>NEXUS TRACKER</h1><div class="sub">Pantau progres proyek prioritasmu, langkah demi langkah</div></div>
+    <div class="brand"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><defs><radialGradient id="lg" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#d8fbff"/><stop offset=".45" stop-color="#047A9A"/><stop offset="1" stop-color="#002D3F"/></radialGradient></defs><circle cx="20" cy="20" r="15" fill="url(#lg)"/></svg><div><h1>NEXUS TRACKER</h1><div class="sub">Pantau progres proyek prioritasmu, langkah demi langkah</div></div></div>
     <div class="bar-r">
       <span class="badge" id="mode"></span>
       <button id="btnLogin" hidden>Login admin</button>
@@ -104,8 +161,13 @@ input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--bd)
   <section class="glass hero" id="hero">
     <h2 class="pname" id="projName">Proyek Prioritas</h2>
     <div class="pl" id="planetBtn" role="button" tabindex="0" aria-label="Kelola langkah"><svg id="planet" viewBox="185 55 230 230" aria-hidden="true"></svg><div class="pread"><b id="pP">0</b><small>%</small></div></div>
-    <div class="gsub"><b id="gDone">0</b> selesai · <b id="gLeft">0</b> tersisa dari <b id="gTot">0</b> pekerjaan</div>
-    <div class="gsub" style="margin-top:4px;font-size:.8rem">Ketuk planet untuk mengelola langkah</div>
+    <div class="chips">
+      <div class="chip c1"><span>Selesai</span><b id="gDone">0</b></div>
+      <div class="chip c2"><span>Tersisa</span><b id="gLeft">0</b></div>
+      <div class="chip c3"><span>Total pekerjaan</span><b id="gTot">0</b></div>
+    </div>
+    <div class="next" id="next" hidden></div>
+    <div class="hint">Ketuk planet untuk mengelola langkah</div>
   </section>
 </div>
 
@@ -120,6 +182,8 @@ input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--bd)
   <label for="fTitle">Nama langkah</label><input id="fTitle" maxlength="120">
   <label for="fTotal">Jumlah total</label><input id="fTotal" type="number" min="0" inputmode="numeric">
   <label for="fLeft">Jumlah tersisa</label><input id="fLeft" type="number" min="0" inputmode="numeric">
+  <label for="fTarget">Tanggal target (opsional)</label><input id="fTarget" type="date">
+  <label for="fNote">Catatan (opsional)</label><textarea id="fNote" rows="2" maxlength="300" placeholder="Kendala, keterangan, atau link"></textarea>
   <div class="row"><button id="tCancel">Batal</button><button class="pri" id="tSave">Simpan</button></div>
 </div></div>
 
@@ -129,6 +193,7 @@ input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--bd)
   <label for="lPass">Kata sandi</label><input id="lPass" type="password" autocomplete="current-password">
   <div class="row"><button id="lCancel">Batal</button><button class="pri" id="lGo">Masuk</button></div>
 </div></div>
+<canvas id="fx"></canvas>
 <div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -137,16 +202,18 @@ input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--bd)
    Isi dua nilai ini dari Supabase > Project Settings > API.
    Jika dikosongkan, aplikasi jalan dalam mode lokal (localStorage). */
 const SUPABASE_URL = "https://gxrpxitipxnrjwacqbog.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_mV-RnNUs8FWHOp_QyOBu8Q_UM-MsPn8";
+const SUPABASE_ANON_KEY = "";
 /* =================================== */
 
 const $ = id => document.getElementById(id);
 const online = !!(SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase);
 const sb = online ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 let tasks = [], user = null, editId = null, projName = "Proyek Prioritas";
+let ready=false,prevDone=new Set(),prevP=0;
 const canEdit = () => !online || !!user;
 
 function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("show"),2800)}
+const dbErr=e=>toast(/target_date|note|column/i.test(e.message)?"Kolom baru belum ada di Supabase. Jalankan SQL tambahan dulu.":e.message);
 const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 /* ---------- Data layer ---------- */
@@ -161,15 +228,15 @@ async function load(){
 }
 const persist = () => !online && localStorage.setItem(LS, JSON.stringify(tasks));
 async function addTask(t){
-  if(online){const {error}=await sb.from("tasks").insert(t);if(error)return toast(error.message);await load()}
+  if(online){const {error}=await sb.from("tasks").insert(t);if(error)return dbErr(error);await load()}
   else{tasks.push({id:crypto.randomUUID(),...t});persist();render()}
 }
 async function updTask(id,p){
-  if(online){const {error}=await sb.from("tasks").update(p).eq("id",id);if(error)return toast(error.message);await load()}
+  if(online){const {error}=await sb.from("tasks").update(p).eq("id",id);if(error)return dbErr(error);await load()}
   else{Object.assign(tasks.find(x=>x.id===id),p);persist();render()}
 }
 async function delTask(id){
-  if(online){const {error}=await sb.from("tasks").delete().eq("id",id);if(error)return toast(error.message);await load()}
+  if(online){const {error}=await sb.from("tasks").delete().eq("id",id);if(error)return dbErr(error);await load()}
   else{tasks=tasks.filter(x=>x.id!==id);persist();render()}
 }
 
@@ -206,10 +273,56 @@ function viz(p){
   return bat(p);
 }
 
+const linkify=t=>t.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+const fmtD=d=>new Date(d+"T00:00:00").toLocaleDateString("id-ID",{day:"numeric",month:"short"});
+function dueInfo(t){
+  if(!t.target_date)return null;
+  if(t.total>0&&t.remaining===0)return {txt:"✓ tuntas",cls:"ok"};
+  const d=Math.round((new Date(t.target_date+"T00:00:00")-new Date(new Date().toDateString()))/864e5);
+  if(d<0)return {txt:`terlambat ${-d} hari`,cls:"late"};
+  if(d===0)return {txt:"hari ini",cls:"soon"};
+  return {txt:`${d} hari lagi`,cls:d<=3?"soon":""};
+}
+const dueHtml=t=>{const i=dueInfo(t);return i?`<div class="due ${i.cls}">◷ ${fmtD(t.target_date)} · ${i.txt}</div>`:""};
+const noteHtml=t=>t.note?`<div class="note">${linkify(esc(t.note))}</div>`:"";
+
+/* ---------- Konfeti ---------- */
+const CF=["#8fe9f8","#2bb8dc","#e8f6fb","#047A9A","#f5b84b"],fx=$("fx"),cx=fx.getContext("2d");let PT=[],fr=0;
+function fit(){const d=devicePixelRatio||1;fx.width=innerWidth*d;fx.height=innerHeight*d;cx.setTransform(d,0,0,d,0,0)}
+addEventListener("resize",fit);fit();
+function burst(n,x,y,sp){
+  for(let i=0;i<n;i++){const a=-Math.PI/2+(Math.random()-.5)*2.2,v=sp*(.4+Math.random()*.8);
+    PT.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:Math.random()*6.28,vr:(Math.random()-.5)*.4,w:5+Math.random()*6,h:3+Math.random()*4,c:CF[i%CF.length],l:0})}
+  if(!fr)fr=requestAnimationFrame(tick);
+}
+function tick(){
+  cx.clearRect(0,0,innerWidth,innerHeight);
+  PT=PT.filter(q=>q.y<innerHeight+20&&q.l<260);
+  for(const q of PT){q.vy+=.35;q.vx*=.99;q.x+=q.vx;q.y+=q.vy;q.r+=q.vr;q.l++;
+    cx.save();cx.translate(q.x,q.y);cx.rotate(q.r);cx.fillStyle=q.c;cx.globalAlpha=Math.min(1,(260-q.l)/60);cx.fillRect(-q.w/2,-q.h/2,q.w,q.h);cx.restore()}
+  fr=PT.length?requestAnimationFrame(tick):0;
+  if(!PT.length)cx.clearRect(0,0,innerWidth,innerHeight);
+}
+function celebrate(big){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const w=innerWidth,h=innerHeight;
+  if(big){burst(110,w*.2,h*.45,16);burst(110,w*.8,h*.45,16);burst(130,w*.5,h*.35,18);toast("Selamat! Semua langkah proyek sudah selesai.")}
+  else burst(70,w*.5,h*.42,13);
+}
+
 function render(){
   const total=tasks.reduce((a,t)=>a+t.total,0), left=tasks.reduce((a,t)=>a+t.remaining,0), done=total-left, p=pctOf(done,total);
-  $("gDone").textContent=done;$("gLeft").textContent=left;$("gTot").textContent=total;
+  count($("gDone"),done);count($("gLeft"),left);count($("gTot"),total);
   $("hero").classList.toggle("full",p>=100&&total>0);
+  const nxt=tasks.filter(t=>t.target_date&&t.remaining>0).sort((a,b)=>a.target_date<b.target_date?-1:1)[0];
+  $("next").hidden=!nxt;
+  if(nxt){const i=dueInfo(nxt);$("next").className="next"+(i.cls==="late"?" late":"");$("next").innerHTML=`Target terdekat: <b>${esc(nxt.title)}</b> · <span>${fmtD(nxt.target_date)} (${i.txt})</span>`}
+  const doneIds=new Set(tasks.filter(t=>t.total>0&&t.remaining===0).map(t=>t.id));
+  if(ready){
+    if(p>=100&&total>0&&prevP<100)celebrate(true);
+    else if([...doneIds].some(id=>!prevDone.has(id)))celebrate(false);
+  }
+  prevDone=doneIds;prevP=p;ready=true;
   count($("pP"),p);paintPlanet(p);
 
   const ed=canEdit();
@@ -222,14 +335,14 @@ function render(){
 
   $("list").innerHTML = tasks.length ? tasks.map((t,i)=>{
     const d=t.total-t.remaining,p=pctOf(d,t.total);
-    return `<article class="glass task"><div class="stp">Langkah ${i+1}</div><h3>${esc(t.title)}</h3>
+    return `<article class="glass task" style="--i:${i}"><div class="stp">Langkah ${i+1}${p>=100?' <em class="ok">✓ selesai</em>':""}</div><h3>${esc(t.title)}</h3>${dueHtml(t)}
       <div class="meta"><span>Selesai <b>${d}</b> dari <b>${t.total}</b> · tersisa <b>${t.remaining}</b></span><b>${p}%</b></div>
-      ${viz(p)}
+      ${viz(p)}${noteHtml(t)}
       ${ed?`<div class="acts">
-        <button data-a="done" data-id="${t.id}">Selesai +1</button>
-        <button data-a="undo" data-id="${t.id}">Batalkan 1</button>
-        <button data-a="edit" data-id="${t.id}">Edit</button>
-        <button class="dng" data-a="del" data-id="${t.id}">Hapus</button></div>`:""}</article>`;
+        <button data-a="done" data-id="${t.id}">✓ Selesai +1</button>
+        <button data-a="undo" data-id="${t.id}">↶ Batalkan 1</button>
+        <button data-a="edit" data-id="${t.id}">✎ Edit</button>
+        <button class="dng" data-a="del" data-id="${t.id}">✕ Hapus</button></div>`:""}</article>`;
   }).join("") : `<div class="glass empty">Belum ada langkah.${ed?" Klik “Tambah langkah” untuk memulai.":" Login admin untuk menambah langkah."}</div>`;
 }
 
@@ -262,7 +375,12 @@ function paintPlanet(p){
 }
 
 /* ---------- Buka panel tugas dari planet ---------- */
-const openList=()=>$("mList").classList.add("open");
+const openList=()=>{$("mList").classList.add("open");$("list").classList.add("anim");setTimeout(()=>$("list").classList.remove("anim"),1000)};
+(function(){
+  const pl=$("planetBtn");
+  pl.addEventListener("pointermove",e=>{const r=pl.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;pl.style.setProperty("--ry",(x*16)+"deg");pl.style.setProperty("--rx",(-y*16)+"deg")});
+  pl.addEventListener("pointerleave",()=>{pl.style.setProperty("--ry","0deg");pl.style.setProperty("--rx","0deg")});
+})();
 $("planetBtn").onclick=openList;
 $("planetBtn").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openList()}});
 $("lClose").onclick=()=>$("mList").classList.remove("open");
@@ -282,7 +400,7 @@ $("list").addEventListener("click",async e=>{
 function openTask(t){
   editId=t?t.id:null;
   $("mTitle").textContent=t?"Edit langkah":"Tambah langkah";
-  $("fTitle").value=t?t.title:"";$("fTotal").value=t?t.total:"";$("fLeft").value=t?t.remaining:"";
+  $("fTitle").value=t?t.title:"";$("fTarget").value=t&&t.target_date?t.target_date:"";$("fNote").value=t&&t.note?t.note:"";$("fTotal").value=t?t.total:"";$("fLeft").value=t?t.remaining:"";
   $("mTask").classList.add("open");$("fTitle").focus();
 }
 $("btnAdd").onclick=()=>openTask(null);
@@ -293,7 +411,10 @@ $("tSave").onclick=async()=>{
   if(!(total>=0)||!(left>=0)) return toast("Jumlah harus berupa angka 0 atau lebih.");
   if(left>total) return toast("Jumlah tersisa tidak boleh melebihi total.");
   $("mTask").classList.remove("open");
-  editId ? await updTask(editId,{title,total,remaining:left}) : await addTask({title,total,remaining:left});
+  const target_date=$("fTarget").value||null,note=$("fNote").value.trim()||null,old=editId?tasks.find(x=>x.id===editId):null;
+  const body={title,total,remaining:left};
+  if(!online||target_date||note||(old&&"target_date" in old)){body.target_date=target_date;body.note=note}
+  editId ? await updTask(editId,body) : await addTask(body);
 };
 
 /* ---------- Login ---------- */
