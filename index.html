@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEXUS TRACKER</title>
+<style>
+:root{--bg:#001B27;--bl:#2bb8dc;--pu:#047A9A;--gr:#8fe9f8;--tx:#e8f6fb;--mu:#8fb3c2;--gl:rgba(4,122,154,.10);--bd:rgba(143,233,248,.15);--rd:#f43f5e}
+*{box-sizing:border-box;margin:0}
+body{background:radial-gradient(800px 500px at 8% -10%,rgba(4,122,154,.25),transparent),radial-gradient(700px 500px at 100% 0,rgba(43,184,220,.2),transparent),var(--bg);background-attachment:fixed;color:var(--tx);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh;padding:20px}
+.wrap{max-width:1100px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+h1{font-size:1.5rem;letter-spacing:.18em;background:linear-gradient(90deg,var(--bl),var(--pu),var(--gr));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mu);font-size:.82rem;margin-top:2px}
+.bar-r{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{font-size:.75rem;padding:6px 10px;border-radius:99px;border:1px solid var(--bd);color:var(--mu)}
+.badge.on{color:var(--gr);border-color:rgba(143,233,248,.4)}
+.glass{background:var(--gl);border:1px solid var(--bd);border-radius:18px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform .25s,border-color .25s,box-shadow .25s}
+.glass:hover{transform:translateY(-3px);border-color:rgba(43,184,220,.4);box-shadow:0 10px 30px rgba(43,184,220,.12)}
+button{font:inherit;cursor:pointer;border:1px solid var(--bd);background:var(--gl);color:var(--tx);padding:9px 14px;border-radius:10px;transition:all .2s}
+button:hover{border-color:var(--bl);box-shadow:0 0 14px rgba(43,184,220,.3)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--bl);outline-offset:2px}
+.pri{background:linear-gradient(90deg,var(--bl),var(--pu));border:0;color:#fff;font-weight:600}
+.dng:hover{border-color:var(--rd);box-shadow:0 0 14px rgba(244,63,94,.35)}
+.hero{padding:22px 18px 18px;margin-bottom:24px;text-align:center}
+.gsub{color:var(--mu);margin-top:14px;font-size:.95rem}
+.gsub b{color:var(--tx)}
+.pl{position:relative;max-width:340px;margin:auto}
+.pname{font-size:1.3rem;letter-spacing:.05em;margin-bottom:6px;overflow-wrap:anywhere}
+.stp{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bl);margin-bottom:3px}
+.pj{margin-bottom:16px}
+.wa{animation:wa 6s linear infinite}
+.wb{animation:wb 9s linear infinite}
+@keyframes wa{to{transform:translateX(-95px)}}
+@keyframes wb{from{transform:translateX(-95px)}to{transform:translateX(0)}}
+.sheen{animation:shn 5.5s ease-in-out infinite}
+@keyframes shn{0%{transform:translateX(210px) skewX(-18deg);opacity:0}15%,85%{opacity:1}100%{transform:translateX(450px) skewX(-18deg);opacity:0}}
+.sp{transform-box:fill-box;transform-origin:center;opacity:0;animation:spk 3s ease-in-out var(--t) infinite}
+@keyframes spk{0%,100%{opacity:0;transform:scale(.3)}50%{opacity:.95;transform:scale(1)}}
+.aura{transform-box:fill-box;transform-origin:center;animation:aur 3.2s ease-in-out infinite}
+@keyframes aur{0%,100%{opacity:.1;transform:scale(1)}50%{opacity:.4;transform:scale(1.04)}}
+.pl{cursor:pointer;border-radius:50%}
+.pl svg{width:100%;height:auto;display:block;overflow:visible;transition:transform .35s}
+.pl:hover svg{transform:scale(1.04)}
+.pl:focus-visible{outline:2px solid var(--bl);outline-offset:6px}
+.box.wide{max-width:760px;max-height:88vh;overflow:auto}
+.box.wide .head2{margin-bottom:16px}
+.pread{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);line-height:1;pointer-events:none}
+.pread b{font-size:clamp(2.4rem,9vw,4rem);text-shadow:0 2px 14px #000,0 0 24px rgba(0,0,0,.7)}
+.pread small{font-size:1.3rem;color:#e8f6fb;margin-left:2px;text-shadow:0 2px 10px #000}
+.hero.full #pHalo{animation:hp 1.6s ease-in-out infinite}
+@keyframes hp{50%{stroke:#e8f6fb;opacity:1}}
+.head2{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.task{padding:18px}
+.task h3{font-size:1.05rem;margin-bottom:4px;overflow-wrap:anywhere}
+.meta{color:var(--mu);font-size:.82rem;display:flex;justify-content:space-between;margin:6px 0 10px}
+.meta b{color:var(--tx)}
+.track{height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--bl),var(--pu),var(--gr));box-shadow:0 0 12px rgba(43,184,220,.7);animation:g 1s ease-out;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+@keyframes g{from{width:0}}
+.bat{display:flex;align-items:center;margin:2px 0 4px}
+.bat .body{position:relative;flex:1;height:36px;border:2px solid var(--c);border-radius:10px;padding:3px;box-shadow:0 0 12px var(--c),inset 0 0 10px rgba(255,255,255,.04);transition:border-color .5s,box-shadow .5s}
+.bat .tip{width:5px;height:15px;background:var(--c);border-radius:0 3px 3px 0;margin-left:2px;transition:background .5s}
+.bat .lvl{height:100%;border-radius:6px;background:var(--c);position:relative;overflow:hidden;animation:g 1s ease-out;transition:width .8s cubic-bezier(.2,.8,.2,1),background .5s}
+.bat .lvl::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.5) 50%,transparent 70%);transform:translateX(-100%);animation:sh 2.2s infinite}
+.bat.full .body{animation:pl 1.6s ease-in-out infinite}
+@keyframes sh{to{transform:translateX(100%)}}
+@keyframes pl{50%{box-shadow:0 0 24px var(--c),inset 0 0 10px rgba(255,255,255,.04)}}
+.bat .pt{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:.9rem;text-shadow:0 0 5px #000,0 0 2px #000}
+.seg{display:flex;gap:4px}
+.seg i{flex:1;height:24px;border-radius:5px;background:rgba(255,255,255,.08)}
+.seg i.on{background:linear-gradient(180deg,var(--bl),var(--pu));box-shadow:0 0 10px var(--pu);animation:pop .45s var(--d) backwards}
+@keyframes pop{from{opacity:0;transform:scaleY(.2)}}
+.views{display:flex;gap:6px;align-items:center}
+.views button{padding:7px 11px;font-size:.8rem}
+.views button.act{border-color:var(--bl);box-shadow:0 0 12px rgba(43,184,220,.35)}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.acts button{padding:7px 10px;font-size:.8rem}
+.empty{padding:36px;text-align:center;color:var(--mu);grid-column:1/-1}
+.modal{position:fixed;inset:0;background:rgba(5,8,16,.75);display:none;place-items:center;padding:16px;z-index:9}
+.modal.open{display:grid}
+.box{background:#03303f;border:1px solid var(--bd);border-radius:18px;padding:22px;width:100%;max-width:380px}
+.box h2{margin-bottom:14px;font-size:1.1rem}
+label{display:block;font-size:.8rem;color:var(--mu);margin:10px 0 4px}
+input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--bd);background:rgba(255,255,255,.05);color:var(--tx);font:inherit}
+.row{display:flex;gap:8px;margin-top:18px;justify-content:flex-end}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:#024A65;border:1px solid var(--bd);padding:10px 16px;border-radius:10px;transition:transform .3s;z-index:20;max-width:90%}
+#toast.show{transform:translateX(-50%)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><h1>NEXUS TRACKER</h1><div class="sub">Pantau progres proyek prioritasmu, langkah demi langkah</div></div>
+    <div class="bar-r">
+      <span class="badge" id="mode"></span>
+      <button id="btnLogin" hidden>Login admin</button>
+      <button id="btnLogout" hidden>Keluar</button>
+    </div>
+  </header>
+
+  <section class="glass hero" id="hero">
+    <h2 class="pname" id="projName">Proyek Prioritas</h2>
+    <div class="pl" id="planetBtn" role="button" tabindex="0" aria-label="Kelola langkah"><svg id="planet" viewBox="185 55 230 230" aria-hidden="true"></svg><div class="pread"><b id="pP">0</b><small>%</small></div></div>
+    <div class="gsub"><b id="gDone">0</b> selesai · <b id="gLeft">0</b> tersisa dari <b id="gTot">0</b> pekerjaan</div>
+    <div class="gsub" style="margin-top:4px;font-size:.8rem">Ketuk planet untuk mengelola langkah</div>
+  </section>
+</div>
+
+<div class="modal" id="mList"><div class="box wide">
+  <div class="head2"><button class="pri" id="btnAdd" hidden>Tambah langkah</button><button id="lClose">Tutup</button></div>
+  <div class="pj" id="pj" hidden><label for="fProj">Nama proyek</label><input id="fProj" maxlength="80"></div>
+  <div class="list" id="list"></div>
+</div></div>
+
+<div class="modal" id="mTask"><div class="box">
+  <h2 id="mTitle">Tambah langkah</h2>
+  <label for="fTitle">Nama langkah</label><input id="fTitle" maxlength="120">
+  <label for="fTotal">Jumlah total</label><input id="fTotal" type="number" min="0" inputmode="numeric">
+  <label for="fLeft">Jumlah tersisa</label><input id="fLeft" type="number" min="0" inputmode="numeric">
+  <div class="row"><button id="tCancel">Batal</button><button class="pri" id="tSave">Simpan</button></div>
+</div></div>
+
+<div class="modal" id="mLogin"><div class="box">
+  <h2>Login admin</h2>
+  <label for="lEmail">Email</label><input id="lEmail" type="email" autocomplete="username">
+  <label for="lPass">Kata sandi</label><input id="lPass" type="password" autocomplete="current-password">
+  <div class="row"><button id="lCancel">Batal</button><button class="pri" id="lGo">Masuk</button></div>
+</div></div>
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+/* ====== KONFIGURASI SUPABASE ======
+   Isi dua nilai ini dari Supabase > Project Settings > API.
+   Jika dikosongkan, aplikasi jalan dalam mode lokal (localStorage). */
+const SUPABASE_URL = "https://gxrpxitipxnrjwacqbog.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_mV-RnNUs8FWHOp_QyOBu8Q_UM-MsPn8";
+/* =================================== */
+
+const $ = id => document.getElementById(id);
+const online = !!(SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase);
+const sb = online ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+let tasks = [], user = null, editId = null, projName = "Proyek Prioritas";
+const canEdit = () => !online || !!user;
+
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("show"),2800)}
+const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ---------- Data layer ---------- */
+const LS = "nexus_tasks";
+async function load(){
+  if(online){
+    const {data,error} = await sb.from("tasks").select("*").order("created_at");
+    if(error) return toast("Gagal memuat: "+error.message);
+    tasks = data;
+  } else tasks = JSON.parse(localStorage.getItem(LS)||"[]");
+  render();
+}
+const persist = () => !online && localStorage.setItem(LS, JSON.stringify(tasks));
+async function addTask(t){
+  if(online){const {error}=await sb.from("tasks").insert(t);if(error)return toast(error.message);await load()}
+  else{tasks.push({id:crypto.randomUUID(),...t});persist();render()}
+}
+async function updTask(id,p){
+  if(online){const {error}=await sb.from("tasks").update(p).eq("id",id);if(error)return toast(error.message);await load()}
+  else{Object.assign(tasks.find(x=>x.id===id),p);persist();render()}
+}
+async function delTask(id){
+  if(online){const {error}=await sb.from("tasks").delete().eq("id",id);if(error)return toast(error.message);await load()}
+  else{tasks=tasks.filter(x=>x.id!==id);persist();render()}
+}
+
+/* ---------- Nama proyek ---------- */
+function renderProj(){
+  $("projName").textContent=projName;document.title=projName+" · NEXUS TRACKER";
+  if(document.activeElement!==$("fProj"))$("fProj").value=projName;
+}
+async function loadProject(){
+  if(online){const {data}=await sb.from("project").select("name").eq("id",1).maybeSingle();if(data&&data.name)projName=data.name}
+  else projName=localStorage.getItem("nexus_project")||projName;
+  renderProj();
+}
+$("fProj").addEventListener("change",async()=>{
+  const name=$("fProj").value.trim()||"Proyek Prioritas";
+  if(online){const {error}=await sb.from("project").update({name}).eq("id",1);if(error)return toast("Gagal menyimpan nama: "+error.message)}
+  else localStorage.setItem("nexus_project",name);
+  projName=name;renderProj();toast("Nama proyek disimpan.");
+});
+
+/* ---------- Tampilan ---------- */
+function count(el,to){
+  const from=+el.dataset.v||0;el.dataset.v=to;const t0=performance.now();
+  const step=n=>{const k=Math.min((n-t0)/700,1);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(step)};
+  requestAnimationFrame(step);
+}
+const pctOf=(done,total)=>total>0?Math.round(done/total*100):0;
+const view="bat";
+const colorOf=p=>p<25?"#f43f5e":p<60?"#facc15":"#8fe9f8";
+const bat=p=>`<div class="bat${p>=100?" full":""}" style="--c:${colorOf(p)}"><div class="body"><div class="lvl" style="width:${p}%"></div><div class="pt">${p>=100?"⚡ ":""}${p}%</div></div><div class="tip"></div></div>`;
+function viz(p){
+  if(view==="seg") return `<div class="seg">${Array.from({length:10},(_,i)=>`<i class="${i<Math.round(p/10)?"on":""}" style="--d:${i*60}ms"></i>`).join("")}</div>`;
+  if(view==="bar") return `<div class="track"><div class="fill" style="width:${p}%"></div></div>`;
+  return bat(p);
+}
+
+function render(){
+  const total=tasks.reduce((a,t)=>a+t.total,0), left=tasks.reduce((a,t)=>a+t.remaining,0), done=total-left, p=pctOf(done,total);
+  $("gDone").textContent=done;$("gLeft").textContent=left;$("gTot").textContent=total;
+  $("hero").classList.toggle("full",p>=100&&total>0);
+  count($("pP"),p);paintPlanet(p);
+
+  const ed=canEdit();
+  $("btnAdd").hidden=!ed;
+  $("pj").hidden=!ed;
+  $("btnLogin").hidden=!(online&&!user);
+  $("btnLogout").hidden=!(online&&user);
+  $("mode").textContent=online?(user?"Online · admin":"Online · hanya lihat"):"Mode lokal";
+  $("mode").className="badge"+(online?" on":"");
+
+  $("list").innerHTML = tasks.length ? tasks.map((t,i)=>{
+    const d=t.total-t.remaining,p=pctOf(d,t.total);
+    return `<article class="glass task"><div class="stp">Langkah ${i+1}</div><h3>${esc(t.title)}</h3>
+      <div class="meta"><span>Selesai <b>${d}</b> dari <b>${t.total}</b> · tersisa <b>${t.remaining}</b></span><b>${p}%</b></div>
+      ${viz(p)}
+      ${ed?`<div class="acts">
+        <button data-a="done" data-id="${t.id}">Selesai +1</button>
+        <button data-a="undo" data-id="${t.id}">Batalkan 1</button>
+        <button data-a="edit" data-id="${t.id}">Edit</button>
+        <button class="dng" data-a="del" data-id="${t.id}">Hapus</button></div>`:""}</article>`;
+  }).join("") : `<div class="glass empty">Belum ada langkah.${ed?" Klik “Tambah langkah” untuk memulai.":" Login admin untuk menambah langkah."}</div>`;
+}
+
+/* ---------- Planet & orbit ---------- */
+(function(){
+  const wv=y=>`M105 ${y} q23.75 -7 47.5 0`+" t47.5 0".repeat(8)+" L532.5 290 L105 290 Z";
+  const SP=[[255,120],[330,105],[360,150],[240,175],[300,140],[345,205],[265,225],[310,245],[225,140],[375,185]];
+  let h=`<defs>
+  <radialGradient id="pb" cx=".38" cy=".32" r=".8"><stop offset="0" stop-color="#024A65"/><stop offset="1" stop-color="#00141c"/></radialGradient>
+  <linearGradient id="pf" gradientUnits="userSpaceOnUse" x1="0" y1="270" x2="0" y2="70"><stop offset="0" stop-color="#015E80"><animate attributeName="stop-color" values="#015E80;#0a86b0;#015E80" dur="6s" repeatCount="indefinite"/></stop><stop offset=".5" stop-color="#047A9A"><animate attributeName="stop-color" values="#047A9A;#16a9cf;#047A9A" dur="5s" repeatCount="indefinite"/></stop><stop offset="1" stop-color="#8fe9f8"><animate attributeName="stop-color" values="#8fe9f8;#d8fbff;#8fe9f8" dur="4s" repeatCount="indefinite"/></stop></linearGradient>
+  <linearGradient id="psh" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".4"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <radialGradient id="ps" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#fff" stop-opacity=".2"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".6"/></radialGradient>
+  <clipPath id="pc"><circle cx="300" cy="170" r="95"/></clipPath></defs>`;
+  for(let i=0;i<34;i++){const a=Math.abs(Math.sin(i*12.9898)*43758.5453)%1,b=Math.abs(Math.sin(i*78.233)*12345.678)%1;h+=`<circle cx="${(a*600).toFixed(1)}" cy="${(b*340).toFixed(1)}" r="${(.6+a).toFixed(1)}" fill="#8fb3c2" opacity=".3"/>`}
+  h+=`
+  <circle cx="300" cy="170" r="95" fill="url(#pb)"/>
+  <g clip-path="url(#pc)">
+    <g id="pFill" style="transform:translateY(200px);transition:transform 1.8s cubic-bezier(.2,.8,.2,1)"><path class="wv wa" d="${wv(70)}" fill="url(#pf)" opacity=".95"/><path class="wv wb" d="${wv(74)}" fill="url(#pf)" opacity=".5"/></g>
+    <rect class="sheen" x="0" y="40" width="70" height="260" fill="url(#psh)"/>
+    ${SP.map(([x,y],i)=>`<g transform="translate(${x},${y})"><path class="sp" style="--t:${(i*.45).toFixed(2)}s" d="M0 -5 L1.2 -1.2 L5 0 L1.2 1.2 L0 5 L-1.2 1.2 L-5 0 L-1.2 -1.2Z" fill="#fff"/></g>`).join("")}
+  </g>
+  <circle cx="300" cy="170" r="95" fill="url(#ps)"/>
+  <circle class="aura" cx="300" cy="170" r="107" fill="none" stroke="#8fe9f8" stroke-width="1.5"/>
+  <circle id="pHalo" cx="300" cy="170" r="101" fill="none" stroke="#8fe9f8" stroke-width="3" opacity=".3" style="transition:opacity 1.5s,filter 1.5s"/>`;
+  $("planet").innerHTML=h;
+})();
+function paintPlanet(p){
+  $("pFill").style.transform=`translateY(${200*(1-p/100)}px)`;
+  const h=$("pHalo");h.style.opacity=.25+.75*p/100;h.style.filter=`drop-shadow(0 0 ${4+24*p/100}px #8fe9f8)`;
+}
+
+/* ---------- Buka panel tugas dari planet ---------- */
+const openList=()=>$("mList").classList.add("open");
+$("planetBtn").onclick=openList;
+$("planetBtn").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openList()}});
+$("lClose").onclick=()=>$("mList").classList.remove("open");
+$("mList").addEventListener("click",e=>{if(e.target.id==="mList")$("mList").classList.remove("open")});
+
+/* ---------- Aksi ---------- */
+$("list").addEventListener("click",async e=>{
+  const b=e.target.closest("button[data-a]");if(!b)return;
+  const t=tasks.find(x=>x.id===b.dataset.id);if(!t)return;
+  const a=b.dataset.a;
+  if(a==="done"&&t.remaining>0) updTask(t.id,{remaining:t.remaining-1});
+  if(a==="undo"&&t.remaining<t.total) updTask(t.id,{remaining:t.remaining+1});
+  if(a==="edit") openTask(t);
+  if(a==="del"&&confirm(`Hapus langkah “${t.title}”?`)) delTask(t.id);
+});
+
+function openTask(t){
+  editId=t?t.id:null;
+  $("mTitle").textContent=t?"Edit langkah":"Tambah langkah";
+  $("fTitle").value=t?t.title:"";$("fTotal").value=t?t.total:"";$("fLeft").value=t?t.remaining:"";
+  $("mTask").classList.add("open");$("fTitle").focus();
+}
+$("btnAdd").onclick=()=>openTask(null);
+$("tCancel").onclick=()=>$("mTask").classList.remove("open");
+$("tSave").onclick=async()=>{
+  const title=$("fTitle").value.trim(),total=parseInt($("fTotal").value,10),left=$("fLeft").value===""?total:parseInt($("fLeft").value,10);
+  if(!title) return toast("Nama langkah wajib diisi.");
+  if(!(total>=0)||!(left>=0)) return toast("Jumlah harus berupa angka 0 atau lebih.");
+  if(left>total) return toast("Jumlah tersisa tidak boleh melebihi total.");
+  $("mTask").classList.remove("open");
+  editId ? await updTask(editId,{title,total,remaining:left}) : await addTask({title,total,remaining:left});
+};
+
+/* ---------- Login ---------- */
+$("btnLogin").onclick=()=>{$("mLogin").classList.add("open");$("lEmail").focus()};
+$("lCancel").onclick=()=>$("mLogin").classList.remove("open");
+$("lGo").onclick=async()=>{
+  const {error}=await sb.auth.signInWithPassword({email:$("lEmail").value.trim(),password:$("lPass").value});
+  if(error) return toast("Login gagal: "+error.message);
+  $("mLogin").classList.remove("open");$("lPass").value="";toast("Berhasil masuk.");
+};
+$("btnLogout").onclick=()=>sb.auth.signOut();
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal.open").forEach(m=>m.classList.remove("open"))});
+
+/* ---------- Mulai ---------- */
+(async function init(){
+  if(online){
+    const {data}=await sb.auth.getSession();user=data.session?.user||null;
+    sb.auth.onAuthStateChange((_,s)=>{user=s?.user||null;render()});
+    sb.channel("tasks-live").on("postgres_changes",{event:"*",schema:"public",table:"tasks"},load).on("postgres_changes",{event:"*",schema:"public",table:"project"},loadProject).subscribe();
+  }
+  await load();
+  await loadProject();
+})();
+</script>
+</body>
+</html>
